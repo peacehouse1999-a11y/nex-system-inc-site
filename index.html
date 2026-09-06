@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nex System Inc. — Visibilité Locale & Autonomie Numérique</title>
+<meta name="description" content="Nex System Inc. propulse la visibilité des TPE, PME, travailleurs autonomes et artistes sur Google Maps et les réseaux sociaux, tout en formant aux outils IA et créatifs.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          ink: '#0B1120',
+          slate: {
+            950: '#0B1120',
+            900: '#0F172A',
+            850: '#152036',
+            800: '#1E293B',
+            700: '#2A3B55',
+          },
+          electric: '#3B82F6',
+          violet: '#8B5CF6',
+        },
+        fontFamily: {
+          display: ['"Space Grotesk"', 'sans-serif'],
+          sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+        },
+        boxShadow: {
+          glow: '0 0 40px -8px rgba(59,130,246,0.45)',
+          'glow-violet': '0 0 40px -8px rgba(139,92,246,0.45)',
+        },
+      },
+    },
+  };
+</script>
+
+<style>
+  :root{ scroll-behavior: smooth; }
+  * { scroll-behavior: smooth; }
+  body{
+    background:
+      radial-gradient(1200px 600px at 85% -10%, rgba(139,92,246,0.16), transparent 60%),
+      radial-gradient(1000px 500px at 5% 10%, rgba(59,130,246,0.14), transparent 55%),
+      #0B1120;
+    color:#E5EAF2;
+    font-family:'Plus Jakarta Sans', sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .font-display{ font-family:'Space Grotesk', sans-serif; }
+
+  ::selection{ background: rgba(139,92,246,0.35); color:#fff; }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar{ width:10px; }
+  ::-webkit-scrollbar-track{ background:#0B1120; }
+  ::-webkit-scrollbar-thumb{ background:linear-gradient(#3B82F6,#8B5CF6); border-radius:10px; }
+
+  /* Glass panels */
+  .glass{
+    background: linear-gradient(180deg, rgba(30,41,59,0.55), rgba(15,23,42,0.55));
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border: 1px solid rgba(148,163,184,0.12);
+  }
+  .glass-hover{ transition: border-color .35s ease, box-shadow .35s ease, transform .35s ease; }
+  .glass-hover:hover{
+    border-color: rgba(139,92,246,0.55);
+    box-shadow: 0 0 0 1px rgba(59,130,246,0.15), 0 25px 60px -20px rgba(59,130,246,0.35);
+    transform: translateY(-4px);
+  }
+
+  .grad-text{
+    background: linear-gradient(90deg,#93C5FD 0%, #3B82F6 35%, #8B5CF6 75%, #C4B5FD 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .btn-glow{ box-shadow: 0 10px 30px -8px rgba(59,130,246,0.55); transition: all .3s ease; }
+  .btn-glow:hover{ box-shadow: 0 14px 45px -6px rgba(139,92,246,0.65); transform: translateY(-2px); }
+
+  .btn-outline{ transition: all .3s ease; border:1px solid rgba(148,163,184,0.3); }
+  .btn-outline:hover{ border-color: rgba(139,92,246,0.7); background: rgba(139,92,246,0.08); box-shadow: 0 0 25px -6px rgba(139,92,246,0.5); }
+
+  /* Fade in on scroll */
+  .reveal{ opacity:0; transform: translateY(28px); transition: opacity .8s ease, transform .8s ease; }
+  .reveal.in-view{ opacity:1; transform: translateY(0); }
+  .reveal-scale{ opacity:0; transform: scale(.94); transition: opacity .8s ease, transform .8s ease; }
+  .reveal-scale.in-view{ opacity:1; transform: scale(1); }
+
+  /* Nav link underline */
+  .nav-link{ position:relative; }
+  .nav-link::after{
+    content:''; position:absolute; left:0; bottom:-4px; height:1px; width:0%;
+    background: linear-gradient(90deg,#3B82F6,#8B5CF6);
+    transition: width .3s ease;
+  }
+  .nav-link:hover::after, .nav-link.active::after{ width:100%; }
+  .nav-link.active{ color:#fff; }
+
+  /* Floating labels */
+  .field{ position:relative; }
+  .field input, .field select, .field textarea{
+    background: rgba(15,23,42,0.6);
+    border:1px solid rgba(148,163,184,0.2);
+  }
+  .field input:focus, .field select:focus, .field textarea:focus{
+    outline:none; border-color:#8B5CF6; box-shadow:0 0 0 3px rgba(139,92,246,0.18);
+  }
+  .field label{
+    position:absolute; left:14px; top:14px; color:#94A3B8; pointer-events:none;
+    transition: all .2s ease; background:transparent; padding:0 4px;
+  }
+  .field input:focus + label, .field input:not(:placeholder-shown) + label,
+  .field select:focus + label, .field select.has-value + label,
+  .field textarea:focus + label, .field textarea:not(:placeholder-shown) + label{
+    top:-9px; left:10px; font-size:11px; color:#A5B4FC; background:#0F172A;
+  }
+
+  .map-pin{ animation: bob 3s ease-in-out infinite; }
+  @keyframes bob{ 0%,100%{ transform: translateY(0);} 50%{ transform: translateY(-6px);} }
+
+  .pulse-dot::before{
+    content:''; position:absolute; inset:0; border-radius:9999px;
+    background: inherit; opacity:.6; animation: pulse-ring 2s cubic-bezier(0.4,0,0.6,1) infinite;
+  }
+  @keyframes pulse-ring{ 0%{ transform:scale(1); opacity:.55;} 100%{ transform:scale(2.4); opacity:0;} }
+
+  .marquee-track{ animation: marquee 28s linear infinite; }
+  @keyframes marquee{ from{ transform: translateX(0);} to{ transform: translateX(-50%);} }
+
+  .tab-btn.active{
+    color:#fff; background: linear-gradient(90deg,#3B82F6,#8B5CF6); box-shadow: 0 8px 25px -8px rgba(139,92,246,0.6);
+  }
+
+  .grain{
+    position: fixed; inset:0; pointer-events:none; opacity:0.035; z-index:0; mix-blend-mode: overlay;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation: none !important; transition: none !important; }
+  }
+</style>
+</head>
+<body class="relative overflow-x-hidden">
+<div class="grain"></div>
+
+<!-- ============ HEADER ============ -->
+<header id="site-header" class="fixed top-0 inset-x-0 z-50 transition-all duration-300">
+  <div class="max-w-7xl mx-auto px-5 md:px-8 mt-4">
+    <nav class="glass rounded-2xl px-5 md:px-6 py-3.5 flex items-center justify-between">
+      <a href="#accueil" class="font-display font-bold text-lg md:text-xl tracking-tight flex items-center gap-2">
+        <span class="w-2.5 h-2.5 rounded-full bg-gradient-to-br from-electric to-violet shadow-glow"></span>
+        <span class="text-white">Nex</span><span class="grad-text">System</span>
+      </a>
+
+      <div class="hidden lg:flex items-center gap-8 text-sm text-slate-300 font-medium">
+        <a href="#accueil" class="nav-link active">Accueil</a>
+        <a href="#apropos" class="nav-link">À propos</a>
+        <a href="#seo-ads" class="nav-link">Référencement &amp; Ads</a>
+        <a href="#formations" class="nav-link">Formations</a>
+        <a href="#artistes" class="nav-link">Programme Artistes</a>
+        <a href="#blog" class="nav-link">Blog</a>
+        <a href="#contact" class="nav-link">Contact</a>
+      </div>
+
+      <a href="#contact" class="hidden md:inline-flex items-center gap-2 btn-glow bg-gradient-to-r from-electric to-violet text-white text-sm font-semibold px-5 py-2.5 rounded-xl">
+        Booster ma visibilité
+        <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
+      </a>
+
+      <button id="menu-btn" class="lg:hidden text-slate-200 p-2" aria-label="Ouvrir le menu">
+        <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
+      </button>
+    </nav>
+
+    <div id="mobile-menu" class="hidden lg:hidden glass rounded-2xl mt-2 px-6 py-5 flex flex-col gap-4 text-slate-200 text-sm font-medium">
+      <a href="#accueil" class="mobile-link">Accueil</a>
+      <a href="#apropos" class="mobile-link">À propos</a>
+      <a href="#seo-ads" class="mobile-link">Référencement &amp; Ads</a>
+      <a href="#formations" class="mobile-link">Formations</a>
+      <a href="#artistes" class="mobile-link">Programme Artistes</a>
+      <a href="#blog" class="mobile-link">Blog</a>
+      <a href="#contact" class="mobile-link">Contact</a>
+      <a href="#contact" class="mobile-link text-center bg-gradient-to-r from-electric to-violet text-white font-semibold px-5 py-2.5 rounded-xl mt-1">Booster ma visibilité</a>
+    </div>
+  </div>
+</header>
+
+<!-- ============ HERO ============ -->
+<section id="accueil" class="relative pt-40 md:pt-48 pb-24 md:pb-32 px-5 md:px-8 overflow-hidden">
+  <div class="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
+    <div>
+      <div class="reveal inline-flex items-center gap-2 glass rounded-full px-4 py-2 text-xs font-semibold text-violet-200 mb-7">
+        <span class="text-electric">✦</span> Agence Visibilité Locale &amp; Autonomie Numérique
+      </div>
+
+      <h1 class="reveal font-display text-4xl sm:text-5xl md:text-6xl font-bold leading-[1.08] tracking-tight mb-6">
+        <span class="text-white">Dominez votre</span><br>
+        <span class="grad-text">marché local.</span><br>
+        <span class="text-white">Maîtrisez votre</span> <span class="grad-text">communication.</span>
+      </h1>
+
+      <p class="reveal text-slate-300/90 text-base md:text-lg leading-relaxed max-w-xl mb-9">
+        Nex System Inc. propulse la visibilité des TPE, PME, travailleurs autonomes et artistes sur Google Maps et les réseaux sociaux, tout en vous formant aux outils IA et créatifs.
+      </p>
+
+      <div class="reveal flex flex-col sm:flex-row gap-4 mb-12">
+        <a href="#seo-ads" class="btn-glow bg-gradient-to-r from-electric to-violet text-white font-semibold px-7 py-3.5 rounded-xl text-center">
+          Optimiser mon Profil Google
+        </a>
+        <a href="#formations" class="btn-outline inline-flex items-center justify-center gap-2 text-slate-200 font-semibold px-7 py-3.5 rounded-xl">
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6l4 2"/><circle cx="12" cy="12" r="9" stroke-width="2"/></svg>
+          Découvrir nos Formations
+        </a>
+      </div>
+
+      <div class="reveal flex items-center gap-6 text-slate-400 text-xs">
+        <div class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-emerald-400"></span>3+ ans d'expérience</div>
+        <div class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-electric"></span>100% francophone</div>
+      </div>
+    </div>
+
+    <!-- Composant visuel : Fiche Google Maps + Dashboard -->
+    <div class="reveal-scale relative">
+      <div class="absolute -inset-10 bg-gradient-to-br from-electric/20 via-violet/10 to-transparent blur-3xl rounded-full"></div>
+
+      <div class="relative glass rounded-3xl p-5 md:p-6 shadow-2xl">
+        <div class="flex items-center justify-between mb-4">
+          <div class="flex items-center gap-2 text-xs text-slate-400">
+            <span class="w-2.5 h-2.5 rounded-full bg-red-400/70"></span>
+            <span class="w-2.5 h-2.5 rounded-full bg-yellow-400/70"></span>
+            <span class="w-2.5 h-2.5 rounded-full bg-emerald-400/70"></span>
+          </div>
+          <span class="text-[11px] text-slate-400 font-mono">maps.google.com</span>
+        </div>
+
+        <div class="rounded-2xl overflow-hidden border border-slate-700/60">
+          <div class="h-40 md:h-48 relative bg-[#111a2e]"
+               style="background-image: linear-gradient(rgba(59,130,246,0.12) 1px, transparent 1px), linear-gradient(90deg, rgba(59,130,246,0.12) 1px, transparent 1px); background-size: 24px 24px;">
+            <div class="map-pin absolute left-[46%] top-[38%] flex flex-col items-center">
+              <div class="relative w-6 h-6 rounded-full bg-gradient-to-br from-electric to-violet pulse-dot flex items-center justify-center text-[10px] font-bold text-white shadow-glow">1</div>
+              <div class="w-0.5 h-3 bg-gradient-to-b from-violet to-transparent"></div>
+            </div>
+            <div class="absolute left-[68%] top-[60%] w-3.5 h-3.5 rounded-full bg-slate-500/60"></div>
+            <div class="absolute left-[22%] top-[65%] w-3.5 h-3.5 rounded-full bg-slate-500/60"></div>
+          </div>
+
+          <div class="bg-slate-900/80 p-4">
+            <p class="text-white font-semibold text-sm mb-0.5">Votre Entreprise Locale</p>
+            <div class="flex items-center gap-1.5 mb-2">
+              <span class="text-amber-400 text-xs">★★★★★</span>
+              <span class="text-slate-400 text-xs">4.9 (128 avis)</span>
+              <span class="ml-auto text-[10px] font-bold text-emerald-300 bg-emerald-400/10 px-2 py-0.5 rounded-full">#1 local</span>
+            </div>
+            <p class="text-slate-400 text-xs">Ouvert · Ferme à 18h · À 0,8 km</p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-3 gap-3 mt-4">
+          <div class="rounded-xl bg-slate-800/50 border border-slate-700/50 p-3">
+            <p class="text-[10px] text-slate-400 mb-1">Vues fiche</p>
+            <p class="font-display font-bold text-white text-lg" data-count="3240">0</p>
+            <p class="text-[10px] text-emerald-400">+186%</p>
+          </div>
+          <div class="rounded-xl bg-slate-800/50 border border-slate-700/50 p-3">
+            <p class="text-[10px] text-slate-400 mb-1">Appels</p>
+            <p class="font-display font-bold text-white text-lg" data-count="94">0</p>
+            <p class="text-[10px] text-emerald-400">+72%</p>
+          </div>
+          <div class="rounded-xl bg-slate-800/50 border border-slate-700/50 p-3">
+            <p class="text-[10px] text-slate-400 mb-1">Itinéraires</p>
+            <p class="font-display font-bold text-white text-lg" data-count="211">0</p>
+            <p class="text-[10px] text-emerald-400">+58%</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CHIFFRES ============ -->
+<section class="px-5 md:px-8 py-6">
+  <div class="max-w-7xl mx-auto grid sm:grid-cols-3 gap-5">
+    <div class="reveal glass glass-hover rounded-2xl p-7 text-center">
+      <p class="font-display text-4xl font-bold grad-text mb-1" data-count="3" data-suffix="+">0</p>
+      <p class="text-slate-400 text-sm">Années d'expérience terrain</p>
+    </div>
+    <div class="reveal glass glass-hover rounded-2xl p-7 text-center">
+      <p class="font-display text-4xl font-bold grad-text mb-1">Top</p>
+      <p class="text-slate-400 text-sm">Positionnement Google Maps visé</p>
+    </div>
+    <div class="reveal glass glass-hover rounded-2xl p-7 text-center">
+      <p class="font-display text-4xl font-bold grad-text mb-1" data-count="100" data-suffix="%">0</p>
+      <p class="text-slate-400 text-sm">Axé sur votre autonomie numérique</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ POURQUOI NEX SYSTEM ============ -->
+<section class="px-5 md:px-8 py-24 md:py-32">
+  <div class="max-w-5xl mx-auto text-center">
+    <p class="reveal text-electric font-semibold text-xs tracking-[0.2em] uppercase mb-4">Notre approche</p>
+    <h2 class="reveal font-display text-3xl md:text-5xl font-bold text-white mb-6">Pourquoi <span class="grad-text">Nex System</span> ?</h2>
+    <p class="reveal text-slate-300/90 text-base md:text-lg leading-relaxed max-w-2xl mx-auto">
+      Aucune gestion lourde de site web, aucune facture qui traîne dans le flou. Nous concentrons chaque effort sur ce qui génère un impact direct — des clients locaux qui vous trouvent, vous appellent et vous choisissent — tout en vous transmettant les compétences pour rester autonome sur Canva, l'IA et vos outils du quotidien.
+    </p>
+
+    <div class="grid sm:grid-cols-2 gap-5 mt-14 text-left">
+      <div class="reveal glass glass-hover rounded-2xl p-6 flex gap-4">
+        <div class="w-11 h-11 shrink-0 rounded-xl bg-gradient-to-br from-electric/20 to-violet/20 flex items-center justify-center text-electric">
+          <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+        </div>
+        <div>
+          <h3 class="font-semibold text-white mb-1.5">Impact direct, pas de fioritures</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">Chaque action vise un résultat mesurable : plus d'appels, plus d'itinéraires, plus de clients.</p>
+        </div>
+      </div>
+      <div class="reveal glass glass-hover rounded-2xl p-6 flex gap-4">
+        <div class="w-11 h-11 shrink-0 rounded-xl bg-gradient-to-br from-electric/20 to-violet/20 flex items-center justify-center text-violet-300">
+          <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.42A12.083 12.083 0 0121 16c0 3.5-4 6-9 6s-9-2.5-9-6a12.083 12.083 0 012.84-7.42L12 14z"/></svg>
+        </div>
+        <div>
+          <h3 class="font-semibold text-white mb-1.5">Autonomie numérique réelle</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">Vous repartez avec des compétences concrètes en Canva, IA et SEO — pas juste un service ponctuel.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 4 PÔLES D'EXPERTISE ============ -->
+<section class="px-5 md:px-8 py-10">
+  <div class="max-w-7xl mx-auto">
+    <div class="text-center mb-14">
+      <p class="reveal text-electric font-semibold text-xs tracking-[0.2em] uppercase mb-4">Nos pôles d'expertise</p>
+      <h2 class="reveal font-display text-3xl md:text-5xl font-bold text-white">Quatre leviers, <span class="grad-text">un seul objectif</span></h2>
+    </div>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+      <div class="reveal glass glass-hover rounded-2xl p-6">
+        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-electric to-violet flex items-center justify-center mb-5 shadow-glow">
+          <svg class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><circle cx="12" cy="11" r="3" stroke-width="2"/></svg>
+        </div>
+        <h3 class="font-display font-bold text-white text-lg mb-2">SEO Local &amp; Google Maps</h3>
+        <p class="text-slate-400 text-sm leading-relaxed">Création et optimisation stratégique de votre fiche Google Profil d'Entreprise pour dominer les recherches de proximité.</p>
+      </div>
+
+      <div class="reveal glass glass-hover rounded-2xl p-6">
+        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-electric to-violet flex items-center justify-center mb-5 shadow-glow">
+          <svg class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
+        </div>
+        <h3 class="font-display font-bold text-white text-lg mb-2">Publicité Payante (Ads)</h3>
+        <p class="text-slate-400 text-sm leading-relaxed">Campagnes ciblées sur Google Ads et Meta Ads (Facebook/Instagram) pour capter un trafic qualifié rapidement.</p>
+      </div>
+
+      <div class="reveal glass glass-hover rounded-2xl p-6">
+        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-electric to-violet flex items-center justify-center mb-5 shadow-glow">
+          <svg class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s4.332.477 5.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+        </div>
+        <h3 class="font-display font-bold text-white text-lg mb-2">Formations Pratiques</h3>
+        <p class="text-slate-400 text-sm leading-relaxed">Ateliers interactifs sur Canva, ChatGPT / Intelligence Artificielle et les bases du SEO local.</p>
+      </div>
+
+      <div class="reveal glass glass-hover rounded-2xl p-6">
+        <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-electric to-violet flex items-center justify-center mb-5 shadow-glow">
+          <svg class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h10a2 2 0 002-2v-3"/></svg>
+        </div>
+        <h3 class="font-display font-bold text-white text-lg mb-2">Programme Spécial Artistes</h3>
+        <p class="text-slate-400 text-sm leading-relaxed">Coaching marketing sur-mesure pour peintres, photographes, musiciens et créateurs francophones.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ À PROPOS ============ -->
+<section id="apropos" class="px-5 md:px-8 py-24 md:py-32">
+  <div class="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
+    <div class="reveal order-2 lg:order-1">
+      <p class="text-electric font-semibold text-xs tracking-[0.2em] uppercase mb-4">À propos de nous</p>
+      <h2 class="font-display text-3xl md:text-4xl font-bold text-white mb-6">3 ans à rendre les entreprises locales <span class="grad-text">visibles et autonomes</span></h2>
+      <p class="text-slate-300/90 leading-relaxed mb-6">
+        Depuis plus de trois ans, Nex System Inc. accompagne des TPE, des PME, des travailleurs autonomes et des artistes francophones qui veulent être vus par les bonnes personnes, au bon moment, sans dépendre indéfiniment d'une agence. Notre vision : chaque client doit sortir plus visible ET plus compétent.
+      </p>
+      <div class="space-y-4">
+        <div class="flex items-start gap-3">
+          <span class="mt-1 w-2 h-2 rounded-full bg-electric shrink-0"></span>
+          <p class="text-slate-300 text-sm"><span class="text-white font-semibold">Clarté</span> — des explications simples, sans jargon technique inutile.</p>
+        </div>
+        <div class="flex items-start gap-3">
+          <span class="mt-1 w-2 h-2 rounded-full bg-violet-400 shrink-0"></span>
+          <p class="text-slate-300 text-sm"><span class="text-white font-semibold">Impact direct</span> — on priorise ce qui amène réellement des clients.</p>
+        </div>
+        <div class="flex items-start gap-3">
+          <span class="mt-1 w-2 h-2 rounded-full bg-electric shrink-0"></span>
+          <p class="text-slate-300 text-sm"><span class="text-white font-semibold">Pédagogie</span> — vous comprenez et maîtrisez chaque outil utilisé.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="reveal-scale order-1 lg:order-2 relative">
+      <div class="absolute -inset-8 bg-gradient-to-tr from-violet/20 to-electric/10 blur-3xl rounded-full"></div>
+      <div class="relative glass rounded-3xl p-8">
+        <div class="grid grid-cols-2 gap-4">
+          <div class="rounded-2xl bg-slate-800/50 border border-slate-700/50 p-5">
+            <p class="font-display text-3xl font-bold grad-text mb-1">3+</p>
+            <p class="text-slate-400 text-xs">années d'expérience</p>
+          </div>
+          <div class="rounded-2xl bg-slate-800/50 border border-slate-700/50 p-5">
+            <p class="font-display text-3xl font-bold grad-text mb-1">FR</p>
+            <p class="text-slate-400 text-xs">100% francophone</p>
+          </div>
+          <div class="rounded-2xl bg-slate-800/50 border border-slate-700/50 p-5">
+            <p class="font-display text-3xl font-bold grad-text mb-1">4</p>
+            <p class="text-slate-400 text-xs">pôles d'expertise</p>
+          </div>
+          <div class="rounded-2xl bg-slate-800/50 border border-slate-700/50 p-5">
+            <p class="font-display text-3xl font-bold grad-text mb-1">0</p>
+            <p class="text-slate-400 text-xs">gestion de site web</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SEO LOCAL & ADS ============ -->
+<section id="seo-ads" class="px-5 md:px-8 py-24 md:py-32 relative">
+  <div class="absolute inset-0 bg-gradient-to-b from-transparent via-slate-900/40 to-transparent -z-10"></div>
+  <div class="max-w-7xl mx-auto">
+    <div class="text-center mb-16">
+      <p class="reveal text-electric font-semibold text-xs tracking-[0.2em] uppercase mb-4">Référencement local &amp; publicité</p>
+      <h2 class="reveal font-display text-3xl md:text-5xl font-bold text-white">Soyez trouvé. <span class="grad-text">Soyez choisi.</span></h2>
+    </div>
+
+    <div class="grid lg:grid-cols-2 gap-6">
+      <div class="reveal glass glass-hover rounded-3xl p-8">
+        <div class="flex items-center gap-3 mb-5">
+          <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-electric to-violet flex items-center justify-center shadow-glow">
+            <svg class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><circle cx="12" cy="11" r="3" stroke-width="2"/></svg>
+          </div>
+          <h3 class="font-display font-bold text-white text-xl">Google Profil d'Entreprise</h3>
+        </div>
+        <ul class="space-y-3.5">
+          <li class="flex gap-3 text-slate-300 text-sm"><span class="text-emerald-400 mt-0.5">✓</span>Optimisation complète de votre fiche (catégories, description, horaires, photos)</li>
+          <li class="flex gap-3 text-slate-300 text-sm"><span class="text-emerald-400 mt-0.5">✓</span>Ciblage de mots-clés de proximité pour capter les recherches « près de moi »</li>
+          <li class="flex gap-3 text-slate-300 text-sm"><span class="text-emerald-400 mt-0.5">✓</span>Stratégie de gestion et de réponse aux avis clients</li>
+          <li class="flex gap-3 text-slate-300 text-sm"><span class="text-emerald-400 mt-0.5">✓</span>Publications régulières pour rester actif aux yeux de Google</li>
+        </ul>
+      </div>
+
+      <div class="reveal glass glass-hover rounded-3xl p-8">
+        <div class="flex items-center gap-3 mb-5">
+          <div class="w-11 h-11 rounded-xl bg-gradient-to-br from-electric to-violet flex items-center justify-center shadow-glow">
+            <svg class="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
+          </div>
+          <h3 class="font-display font-bold text-white text-xl">Stratégie Ads</h3>
+        </div>
+        <ul class="space-y-3.5">
+          <li class="flex gap-3 text-slate-300 text-sm"><span class="text-emerald-400 mt-0.5">✓</span><span><span class="text-white font-medium">Google Ads</span> — capture de trafic qualifié au moment précis de la recherche</span></li>
+          <li class="flex gap-3 text-slate-300 text-sm"><span class="text-emerald-400 mt-0.5">✓</span><span><span class="text-white font-medium">Meta Ads</span> — génération de notoriété sur Facebook et Instagram</span></li>
+          <li class="flex gap-3 text-slate-300 text-sm"><span class="text-emerald-400 mt-0.5">✓</span>Ciblage géolocalisé précis autour de votre zone de service</li>
+          <li class="flex gap-3 text-slate-300 text-sm"><span class="text-emerald-400 mt-0.5">✓</span>Suivi de performance transparent, sans jargon</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FORMATIONS ============ -->
+<section id="formations" class="px-5 md:px-8 py-24 md:py-32">
+  <div class="max-w-7xl mx-auto">
+    <div class="text-center mb-14">
+      <p class="reveal text-electric font-semibold text-xs tracking-[0.2em] uppercase mb-4">Formations &amp; coaching</p>
+      <h2 class="reveal font-display text-3xl md:text-5xl font-bold text-white mb-5">Apprenez à <span class="grad-text">voler de vos propres ailes</span></h2>
+      <p class="reveal text-slate-300/90 max-w-2xl mx-auto">Deux formats, une seule promesse : des compétences numériques concrètes que vous pourrez réutiliser chaque semaine.</p>
+    </div>
+
+    <div class="grid sm:grid-cols-2 gap-5 mb-14 max-w-3xl mx-auto">
+      <div class="reveal glass glass-hover rounded-2xl p-7 text-center">
+        <div class="w-12 h-12 mx-auto rounded-xl bg-gradient-to-br from-electric/20 to-violet/20 flex items-center justify-center text-electric mb-4">
+          <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87m6-1a4 4 0 100-8 4 4 0 000 8zm6 3a4 4 0 00-4-4H8a4 4 0 00-4 4"/></svg>
+        </div>
+        <h3 class="font-semibold text-white mb-2">Coaching individuel</h3>
+        <p class="text-slate-400 text-sm leading-relaxed">Séances personnalisées, à votre rythme, sur vos propres outils et contenus.</p>
+      </div>
+      <div class="reveal glass glass-hover rounded-2xl p-7 text-center">
+        <div class="w-12 h-12 mx-auto rounded-xl bg-gradient-to-br from-electric/20 to-violet/20 flex items-center justify-center text-violet-300 mb-4">
+          <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+        </div>
+        <h3 class="font-semibold text-white mb-2">Modules vidéo en ligne</h3>
+        <p class="text-slate-400 text-sm leading-relaxed">Apprenez quand vous voulez, revisionnez autant que nécessaire.</p>
+      </div>
+    </div>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+      <div class="reveal glass glass-hover rounded-2xl p-6">
+        <span class="text-xs font-mono text-violet-300">Module 01</span>
+        <h4 class="font-display font-bold text-white text-lg mt-2 mb-2">Canva</h4>
+        <p class="text-slate-400 text-sm leading-relaxed">Créez des visuels professionnels pour vos réseaux sociaux en quelques minutes.</p>
+      </div>
+      <div class="reveal glass glass-hover rounded-2xl p-6">
+        <span class="text-xs font-mono text-violet-300">Module 02</span>
+        <h4 class="font-display font-bold text-white text-lg mt-2 mb-2">ChatGPT &amp; IA</h4>
+        <p class="text-slate-400 text-sm leading-relaxed">Utilisez l'intelligence artificielle pour rédiger, planifier et gagner du temps.</p>
+      </div>
+      <div class="reveal glass glass-hover rounded-2xl p-6">
+        <span class="text-xs font-mono text-violet-300">Module 03</span>
+        <h4 class="font-display font-bold text-white text-lg mt-2 mb-2">Bases du SEO local</h4>
+        <p class="text-slate-400 text-sm leading-relaxed">Comprenez comment Google Maps classe les entreprises près de chez vous.</p>
+      </div>
+      <div class="reveal glass glass-hover rounded-2xl p-6">
+        <span class="text-xs font-mono text-violet-300">Module 04</span>
+        <h4 class="font-display font-bold text-white text-lg mt-2 mb-2">Suite Google</h4>
+        <p class="text-slate-400 text-sm leading-relaxed">Maîtrisez les outils Google essentiels à la gestion de votre présence en ligne.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PROGRAMME ARTISTES ============ -->
+<section id="artistes" class="px-5 md:px-8 py-24 md:py-32 relative">
+  <div class="absolute inset-0 bg-gradient-to-b from-transparent via-slate-900/40 to-transparent -z-10"></div>
+  <div class="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
+    <div class="reveal">
+      <p class="text-electric font-semibold text-xs tracking-[0.2em] uppercase mb-4">Programme artistes</p>
+      <h2 class="font-display text-3xl md:text-4xl font-bold text-white mb-6">Un marketing pensé pour les <span class="grad-text">créateurs francophones</span></h2>
+      <p class="text-slate-300/90 leading-relaxed mb-8">
+        Peintres, photographes, musiciens, artisans d'art : votre travail mérite d'être vu par les bonnes personnes. Notre programme 100% marketing valorise votre démarche artistique sans jamais toucher à votre création.
+      </p>
+      <div class="space-y-4">
+        <div class="flex items-start gap-3 reveal">
+          <span class="mt-1 w-2 h-2 rounded-full bg-electric shrink-0"></span>
+          <p class="text-slate-300 text-sm">Valorisation de vos ateliers et expositions sur Google Maps</p>
+        </div>
+        <div class="flex items-start gap-3 reveal">
+          <span class="mt-1 w-2 h-2 rounded-full bg-violet-400 shrink-0"></span>
+          <p class="text-slate-300 text-sm">Création de catalogues visuels professionnels sur Canva</p>
+        </div>
+        <div class="flex items-start gap-3 reveal">
+          <span class="mt-1 w-2 h-2 rounded-full bg-electric shrink-0"></span>
+          <p class="text-slate-300 text-sm">Rédaction assistée par IA de vos démarches artistiques</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="reveal-scale relative">
+      <div class="absolute -inset-8 bg-gradient-to-tr from-violet/25 to-electric/10 blur-3xl rounded-full"></div>
+      <div class="relative glass rounded-3xl p-8 grid grid-cols-2 gap-4">
+        <div class="rounded-2xl bg-slate-800/50 border border-slate-700/50 aspect-square flex items-center justify-center text-3xl">🎨</div>
+        <div class="rounded-2xl bg-slate-800/50 border border-slate-700/50 aspect-square flex items-center justify-center text-3xl mt-6">📷</div>
+        <div class="rounded-2xl bg-slate-800/50 border border-slate-700/50 aspect-square flex items-center justify-center text-3xl -mt-6">🎵</div>
+        <div class="rounded-2xl bg-slate-800/50 border border-slate-700/50 aspect-square flex items-center justify-center text-3xl">🖌️</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ BLOG ============ -->
+<section id="blog" class="px-5 md:px-8 py-24 md:py-32">
+  <div class="max-w-7xl mx-auto">
+    <div class="text-center mb-14">
+      <p class="reveal text-electric font-semibold text-xs tracking-[0.2em] uppercase mb-4">Blog &amp; ressources</p>
+      <h2 class="reveal font-display text-3xl md:text-5xl font-bold text-white">Conseils <span class="grad-text">pratiques &amp; actionnables</span></h2>
+    </div>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+      <article class="reveal glass glass-hover rounded-2xl overflow-hidden flex flex-col">
+        <div class="h-36 overflow-hidden">
+          <img src="https://images.unsplash.com/photo-1553877522-43269d4ea984?auto=format&fit=crop&w=600&q=60" alt="Fiche Google Maps sur un écran" class="w-full h-full object-cover hover:scale-110 transition-transform duration-700">
+        </div>
+        <div class="p-5 flex flex-col flex-1">
+          <span class="text-[11px] text-slate-400 mb-2">5 min de lecture</span>
+          <h3 class="font-semibold text-white text-sm leading-snug mb-3 flex-1">5 réglages de votre fiche Google à vérifier cette semaine</h3>
+          <a href="#" class="text-xs font-semibold text-electric inline-flex items-center gap-1 hover:gap-2 transition-all">Lire l'article <span>→</span></a>
+        </div>
+      </article>
+
+      <article class="reveal glass glass-hover rounded-2xl overflow-hidden flex flex-col">
+        <div class="h-36 overflow-hidden">
+          <img src="https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?auto=format&fit=crop&w=600&q=60" alt="Tableau publicitaire numérique" class="w-full h-full object-cover hover:scale-110 transition-transform duration-700">
+        </div>
+        <div class="p-5 flex flex-col flex-1">
+          <span class="text-[11px] text-slate-400 mb-2">7 min de lecture</span>
+          <h3 class="font-semibold text-white text-sm leading-snug mb-3 flex-1">Google Ads vs Meta Ads : lequel choisir pour votre commerce local ?</h3>
+          <a href="#" class="text-xs font-semibold text-electric inline-flex items-center gap-1 hover:gap-2 transition-all">Lire l'article <span>→</span></a>
+        </div>
+      </article>
+
+      <article class="reveal glass glass-hover rounded-2xl overflow-hidden flex flex-col">
+        <div class="h-36 overflow-hidden">
+          <img src="https://images.unsplash.com/photo-1531403009284-440f080d1e12?auto=format&fit=crop&w=600&q=60" alt="Design de visuels sur ordinateur" class="w-full h-full object-cover hover:scale-110 transition-transform duration-700">
+        </div>
+        <div class="p-5 flex flex-col flex-1">
+          <span class="text-[11px] text-slate-400 mb-2">4 min de lecture</span>
+          <h3 class="font-semibold text-white text-sm leading-snug mb-3 flex-1">3 astuces Canva pour des publications qui arrêtent le scroll</h3>
+          <a href="#" class="text-xs font-semibold text-electric inline-flex items-center gap-1 hover:gap-2 transition-all">Lire l'article <span>→</span></a>
+        </div>
+      </article>
+
+      <article class="reveal glass glass-hover rounded-2xl overflow-hidden flex flex-col">
+        <div class="h-36 overflow-hidden">
+          <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=600&q=60" alt="Intelligence artificielle et écriture" class="w-full h-full object-cover hover:scale-110 transition-transform duration-700">
+        </div>
+        <div class="p-5 flex flex-col flex-1">
+          <span class="text-[11px] text-slate-400 mb-2">6 min de lecture</span>
+          <h3 class="font-semibold text-white text-sm leading-snug mb-3 flex-1">Utiliser ChatGPT pour rédiger vos descriptions de produits</h3>
+          <a href="#" class="text-xs font-semibold text-electric inline-flex items-center gap-1 hover:gap-2 transition-all">Lire l'article <span>→</span></a>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONTACT ============ -->
+<section id="contact" class="px-5 md:px-8 py-24 md:py-32 relative">
+  <div class="absolute inset-0 bg-gradient-to-b from-transparent via-slate-900/40 to-transparent -z-10"></div>
+  <div class="max-w-4xl mx-auto text-center mb-14">
+    <p class="reveal text-electric font-semibold text-xs tracking-[0.2em] uppercase mb-4">Contact</p>
+    <h2 class="reveal font-display text-3xl md:text-5xl font-bold text-white mb-5">Prêt à <span class="grad-text">dominer votre marché local</span> ?</h2>
+    <p class="reveal text-slate-300/90">Un mot sur votre projet, et on revient vers vous rapidement.</p>
+  </div>
+
+  <div class="reveal-scale max-w-2xl mx-auto glass rounded-3xl p-6 md:p-10">
+    <form id="contact-form" class="grid sm:grid-cols-2 gap-5" onsubmit="return handleSubmit(event)">
+      <div class="field">
+        <input type="text" id="nom" required placeholder=" " class="w-full rounded-xl px-4 py-3.5 text-white text-sm">
+        <label for="nom">Nom complet</label>
+      </div>
+      <div class="field">
+        <input type="text" id="entreprise" required placeholder=" " class="w-full rounded-xl px-4 py-3.5 text-white text-sm">
+        <label for="entreprise">Entreprise / Nom d'artiste</label>
+      </div>
+      <div class="field">
+        <input type="email" id="courriel" required placeholder=" " class="w-full rounded-xl px-4 py-3.5 text-white text-sm">
+        <label for="courriel">Courriel</label>
+      </div>
+      <div class="field">
+        <input type="tel" id="telephone" required placeholder=" " class="w-full rounded-xl px-4 py-3.5 text-white text-sm">
+        <label for="telephone">Téléphone</label>
+      </div>
+      <div class="field sm:col-span-2">
+        <select id="besoin" required onchange="this.classList.toggle('has-value', this.value !== '')" class="w-full rounded-xl px-4 py-3.5 text-white text-sm appearance-none">
+          <option value="" disabled selected></option>
+          <option value="seo">Référencement Local &amp; Google Maps</option>
+          <option value="ads">Publicité Payante (Ads)</option>
+          <option value="formation">Formation / Coaching</option>
+          <option value="artiste">Programme Artistes</option>
+          <option value="autre">Autre</option>
+        </select>
+        <label for="besoin">Sélectionnez votre besoin</label>
+      </div>
+      <div class="field sm:col-span-2">
+        <textarea id="message" rows="4" required placeholder=" " class="w-full rounded-xl px-4 py-3.5 text-white text-sm resize-none"></textarea>
+        <label for="message">Votre message</label>
+      </div>
+      <button type="submit" class="sm:col-span-2 btn-glow bg-gradient-to-r from-electric to-violet text-white font-semibold px-7 py-3.5 rounded-xl mt-1">
+        Envoyer ma demande
+      </button>
+      <p id="form-success" class="hidden sm:col-span-2 text-emerald-300 text-sm text-center">Merci ! Votre message a bien été envoyé — on vous répond très vite.</p>
+      <p id="form-error" class="hidden sm:col-span-2 text-red-300 text-sm text-center">Une erreur est survenue. Veuillez réessayer ou nous écrire directement par courriel.</p>
+    </form>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="px-5 md:px-8 pt-16 pb-8 border-t border-slate-800/60">
+  <div class="max-w-7xl mx-auto">
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
+      <div>
+        <a href="#accueil" class="font-display font-bold text-lg flex items-center gap-2 mb-4">
+          <span class="w-2.5 h-2.5 rounded-full bg-gradient-to-br from-electric to-violet"></span>
+          <span class="text-white">Nex</span><span class="grad-text">System</span>
+        </a>
+        <p class="text-slate-400 text-sm leading-relaxed">Visibilité locale, publicité ciblée et autonomie numérique pour entrepreneurs et artistes francophones.</p>
+      </div>
+
+      <div>
+        <h4 class="text-white font-semibold text-sm mb-4">Navigation</h4>
+        <ul class="space-y-2.5 text-sm text-slate-400">
+          <li><a href="#apropos" class="hover:text-violet-300 transition-colors">À propos</a></li>
+          <li><a href="#seo-ads" class="hover:text-violet-300 transition-colors">Référencement &amp; Ads</a></li>
+          <li><a href="#formations" class="hover:text-violet-300 transition-colors">Formations</a></li>
+          <li><a href="#artistes" class="hover:text-violet-300 transition-colors">Programme Artistes</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="text-white font-semibold text-sm mb-4">Ressources</h4>
+        <ul class="space-y-2.5 text-sm text-slate-400">
+          <li><a href="#blog" class="hover:text-violet-300 transition-colors">Blog</a></li>
+          <li><a href="#contact" class="hover:text-violet-300 transition-colors">Contact</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="text-white font-semibold text-sm mb-4">Suivez-nous</h4>
+        <div class="flex gap-3">
+          <a href="#" class="w-10 h-10 rounded-xl glass glass-hover flex items-center justify-center text-slate-300" aria-label="Facebook">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M22 12a10 10 0 10-11.5 9.9v-7H8v-2.9h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.3c-1.2 0-1.6.8-1.6 1.6v1.9H16l-.4 2.9h-2.1v7A10 10 0 0022 12z"/></svg>
+          </a>
+          <a href="#" class="w-10 h-10 rounded-xl glass glass-hover flex items-center justify-center text-slate-300" aria-label="Instagram">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 3.3.1 4.8 1.7 5 5 .1 1.3.1 1.6.1 4.8 0 3.2 0 3.6-.1 4.8-.1 3.3-1.7 4.8-5 5-1.3 0-1.6.1-4.9.1-3.2 0-3.6 0-4.8-.1-3.3-.1-4.8-1.7-5-5C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.8c.1-3.3 1.7-4.8 5-5 1.2-.1 1.6-.1 4.7-.1zM12 7a5 5 0 100 10 5 5 0 000-10zm0 8.2A3.2 3.2 0 1112 8.8a3.2 3.2 0 010 6.4zM17.4 5.6a1.2 1.2 0 100 2.4 1.2 1.2 0 000-2.4z"/></svg>
+          </a>
+          <a href="#" class="w-10 h-10 rounded-xl glass glass-hover flex items-center justify-center text-slate-300" aria-label="LinkedIn">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M6.94 5a2 2 0 11-4-.02 2 2 0 014 .02zM7 8.5H3V21h4V8.5zm6.4 0H9.6V21h3.8v-6.4c0-3.6 4.7-3.9 4.7 0V21H22v-7.2c0-6.6-7.4-6.4-8.6-3.1V8.5z"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="pt-8 border-t border-slate-800/60 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-500">
+      <p>© <span id="year"></span> Nex System Inc. Tous droits réservés.</p>
+      <p>Conçu avec précision, à distance de tout le monde.</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Header scroll state
+  const header = document.getElementById('site-header');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 20) {
+      header.classList.add('pt-0');
+    }
+  });
+
+  // Mobile menu
+  const menuBtn = document.getElementById('menu-btn');
+  const mobileMenu = document.getElementById('mobile-menu');
+  menuBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
+  document.querySelectorAll('.mobile-link').forEach(l => l.addEventListener('click', () => mobileMenu.classList.add('hidden')));
+
+  // Smooth scroll for all anchor links
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      const targetId = this.getAttribute('href');
+      const target = document.querySelector(targetId);
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+
+  // Active nav link on scroll
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-link');
+  const setActive = () => {
+    let current = '';
+    sections.forEach(sec => {
+      const rect = sec.getBoundingClientRect();
+      if (rect.top <= 120 && rect.bottom >= 120) current = sec.id;
+    });
+    navLinks.forEach(link => {
+      link.classList.toggle('active', link.getAttribute('href') === '#' + current);
+    });
+  };
+  window.addEventListener('scroll', setActive);
+
+  // Scroll reveal animations
+  const revealEls = document.querySelectorAll('.reveal, .reveal-scale');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in-view');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
+  revealEls.forEach((el, i) => {
+    el.style.transitionDelay = (i % 4) * 70 + 'ms';
+    io.observe(el);
+  });
+
+  // Animated counters
+  const counters = document.querySelectorAll('[data-count]');
+  const countIO = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      const el = entry.target;
+      const target = parseInt(el.dataset.count, 10);
+      const suffix = el.dataset.suffix || '';
+      const duration = 1400;
+      const start = performance.now();
+      const step = (now) => {
+        const progress = Math.min((now - start) / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        el.textContent = Math.round(eased * target) + suffix;
+        if (progress < 1) requestAnimationFrame(step);
+      };
+      requestAnimationFrame(step);
+      countIO.unobserve(el);
+    });
+  }, { threshold: 0.5 });
+  counters.forEach(c => countIO.observe(c));
+
+  // Contact form — envoie les données à la Cloudflare Pages Function /api/contact
+  function handleSubmit(e) {
+    e.preventDefault();
+    const form = document.getElementById('contact-form');
+    const success = document.getElementById('form-success');
+    const error = document.getElementById('form-error');
+    const submitBtn = form.querySelector('button[type="submit]') || form.querySelector('button[type="submit"]');
+    const fields = form.querySelectorAll('input, select, textarea, button');
+
+    error?.classList.add('hidden');
+    fields.forEach(el => el.classList.add('opacity-60'));
+    if (submitBtn) submitBtn.disabled = true;
+
+    const payload = {
+      nom: document.getElementById('nom').value,
+      entreprise: document.getElementById('entreprise').value,
+      courriel: document.getElementById('courriel').value,
+      telephone: document.getElementById('telephone').value,
+      besoin: document.getElementById('besoin').value,
+      message: document.getElementById('message').value,
+    };
+
+    fetch('/api/contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    })
+      .then(async (res) => {
+        if (!res.ok) throw new Error('request-failed');
+        success.classList.remove('hidden');
+        form.reset();
+        document.getElementById('besoin').classList.remove('has-value');
+      })
+      .catch(() => {
+        error?.classList.remove('hidden');
+      })
+      .finally(() => {
+        fields.forEach(el => el.classList.remove('opacity-60'));
+        if (submitBtn) submitBtn.disabled = false;
+      });
+
+    return false;
+  }
+
+  document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
